@@ -1,0 +1,66 @@
+﻿@model RenewApplication.ViewModels.customerBillingViewModel
+@{
+    ViewData["Title"] = "Customer Billing";
+}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Customer Billing Summary</h1>
+    <a asp-action="Create" class="btn btn-primary mb-4">New Bill</a><br />
+    @foreach (var customer in Model.Customers)
+    {
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-xl font-semibold">@customer.CustomerName</h2>
+                <p>Email: @customer.Email</p>
+                <p>Phone: @customer.Phone</p>
+            </div>
+            <div class="card-body">
+                @foreach (var bill in customer.Bills)
+                {
+                    <div class="p-3">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name </th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Qty</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Price</th>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sub Total</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="bg-white divide-y divide-gray-200">
+
+                                @foreach (var detail in bill.Details)
+                                {
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-3 text-sm text-gray-900">@detail.IName</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 text-right">@detail.Quantity</td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 text-right">$@detail.UnitPrice.ToString("N2")</td>
+                                        <td class="px-4 py-3 text-sm font-medium text-gray-900 text-right">$@detail.SubTotal.ToString("N2")</td>
+                                    </tr>
+                                }
+                            </tbody>     
+                        </table>
+                        <p>Total: @bill.Total</p>
+                        <p>Net Total: @bill.NetTotal</p>
+                        <p>Discount: @bill.Discount</p>
+                        <p>Paid: @bill.Paid</p>
+                        <p>Due: @bill.Due</p>
+                        <a asp-action="Edit" asp-route-id="@bill.BillId" class="btn btn-primary">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@bill.BillId" class="btn btn-danger">Delete</a> |
+                        <button class="btn btn-success">Print</button>
+                        
+                    </div>
+            }   
+                
+            </div>
+            
+            
+        </div>
+        
+    
+       
+                
+        
+    }
+
+</div>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsEmployee" targetNamespace="http://tempuri.org/dsEmployee.xsd" xmlns:mstns="http://tempuri.org/dsEmployee.xsd" xmlns="http://tempuri.org/dsEmployee.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsEmployee" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="dsEmployee" msprop:Generator_DataSetName="dsEmployee">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTable1" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_RowClassName="DataTable1Row" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_UserTableName="DataTable1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="IId" msprop:Generator_ColumnPropNameInRow="IId" msprop:Generator_ColumnPropNameInTable="IIdColumn" msprop:Generator_ColumnVarNameInTable="columnIId" msprop:Generator_UserColumnName="IId" type="xs:string" minOccurs="0" />
+              <xs:element name="Itemname" msprop:Generator_ColumnPropNameInRow="Itemname" msprop:Generator_ColumnPropNameInTable="ItemnameColumn" msprop:Generator_ColumnVarNameInTable="columnItemname" msprop:Generator_UserColumnName="Itemname" type="xs:string" minOccurs="0" />
+              <xs:element name="Gen" msprop:Generator_ColumnPropNameInRow="Gen" msprop:Generator_ColumnPropNameInTable="GenColumn" msprop:Generator_ColumnVarNameInTable="columnGen" msprop:Generator_UserColumnName="Gen" type="xs:string" minOccurs="0" />
+              <xs:element name="Harddisk" msprop:Generator_ColumnPropNameInRow="Harddisk" msprop:Generator_ColumnPropNameInTable="HarddiskColumn" msprop:Generator_ColumnVarNameInTable="columnHarddisk" msprop:Generator_UserColumnName="Harddisk" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

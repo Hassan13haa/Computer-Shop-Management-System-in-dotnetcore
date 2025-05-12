@@ -1,0 +1,397 @@
+﻿@model RenewApplication.ViewModels.BillViewModel;
+@{
+    ViewData["Title"] = "Edit";
+}
+<h3>Edit Bill Information</h3>
+
+<!-- Add hidden input for bill ID -->
+<input type="hidden" asp-for="BillId" id="billId" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h4>Customer Information</h4></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="BDate">Bill Date</label>
+                            <input id="BDate" asp-for="BDate" type="datetime-local" class="form-control" />
+                            <span asp-validation-for="BDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="CustomerId">Customer Name</label>
+                            @* <select id="customerId" asp-for="CustomerId" asp-items="ViewBag.Customers" class="form-control" onchange="getPhoneNumber()">
+                                <option value="">--- Select Customer ---</option>
+                            </select> *@
+                            <input id="customerId" asp-for="CustomerId" class="form-control"/>
+                            <span asp-validation-for="CustomerId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="CPhone">Phone Number</label>
+                            <input id="cphone" asp-for="CPhone" type="number" class="form-control" />
+                            <span asp-validation-for="CPhone" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h4>Add Item</h4></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Item Id</label>
+                            <input id="ItemId" type="number" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Product Name </label>
+                            <input id="ItemName" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Product Quantity </label>
+                            <input id="quantity" type="number" class="form-control" onchange="CalculateSubTotal()" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Unit Price </label>
+                            <input id="unitPrice" type="number" class="form-control" onchange="CalculateSubTotal()" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Sub Total </label>
+                            <input id="subTotal" type="number" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <button type="button" class="btn btn-success form-control" onclick="addItem()">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Bill Summary</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Total">Total</label>
+                            <input id="total" asp-for="Total" type="number" class="form-control" readonly />
+                            <span asp-validation-for="Total" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Discount">Discount </label>
+                            <input id="discount" asp-for="Discount" type="number" class="form-control" onchange="CalculateNetTotal()" value="0" />
+                            <span asp-validation-for="Discount" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="NetTotal">Net Total </label>
+                            <input id="Nettotal" asp-for="NetTotal" type="number" class="form-control" readonly />
+                            <span asp-validation-for="NetTotal" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Paid">Paid Amount</label>
+                            <input id="paid" asp-for="Paid" type="number" class="form-control" onchange="CalculateDue();" value="0" />
+                            <span asp-validation-for="Paid" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Due">Due Amount</label>
+                            <input id="due" asp-for="Due" type="number" class="form-control" readonly />
+                            <span asp-validation-for="Due" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <button type="button" class="btn btn-primary form-control" onclick="submitBill()">Update Bill</button>&nbsp
+                            <a asp-action="Index" class="btn btn-success form-control">Back to list</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><h4>Product List</h4></div>
+            <div class="card-body">
+                <table class="table table-bordered" id="itemsTable">
+                    <thead>
+                        <tr>
+                            <th>Item ID </th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Sub Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--Details added dynamically-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="billForm" asp-action="Edit" method="post" style="display:none;">
+    <input type="hidden" id="formBillId" name="Id" />
+    <input type="hidden" id="formBDate" name="BDate" />
+    <input type="hidden" id="formCustomerId" name="CustomerId" />
+    <input type="hidden" id="formCPhone" name="CPhone" />
+    <input type="hidden" id="formTotal" name="Total" />
+    <input type="hidden" id="formDiscount" name="Discount" />
+    <input type="hidden" id="formNetTotal" name="NetTotal" />
+    <input type="hidden" id="formPaid" name="Paid" />
+    <input type="hidden" id="formDue" name="Due" />
+    <input type="hidden" id="formItems" name="Items" />
+
+    <div id="billDetailsContainer"></div>
+</form>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@section Scripts {
+    <script>
+        var items = [];
+
+        // Load existing bill details when page loads
+        $(document).ready(function() {
+        // Check if we have bill details from the model
+        @if (Model.BillDetails != null && Model.BillDetails.Count > 0)
+        {
+            <text>
+                // Load bill details from model
+                @foreach (var detail in Model.BillDetails)
+                {
+                    <text>
+                        var item = {
+                        iid: '@detail.IId',
+                        iname: '@detail.IName',
+                        quantity: '@detail.Quantity',
+                        unitPrice: '@detail.UnitPrice',
+                        subTotal: '@detail.SubTotal'
+                        };
+                        items.push(item);
+
+                        // Add to table
+                        var table = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
+                        var newRow = table.insertRow();
+
+                        var cell1 = newRow.insertCell(0);
+                        var cell2 = newRow.insertCell(1);
+                        var cell3 = newRow.insertCell(2);
+                        var cell4 = newRow.insertCell(3);
+                        var cell5 = newRow.insertCell(4);
+                        var cell6 = newRow.insertCell(5);
+
+                        cell1.innerHTML = '@detail.IId';
+                        cell2.innerHTML = '@detail.IName';
+                        cell3.innerHTML = '@detail.Quantity';
+                        cell4.innerHTML = '@detail.UnitPrice';
+                        cell5.innerHTML = '@detail.SubTotal';
+                        cell6.innerHTML = '<button type="button" class="btn btn-danger btn-sm" onclick="removeItem(this, ' + (items.length - 1) + ')">Remove</button>';
+                    </text>
+                }
+            </text>
+
+            // Calculate totals
+            // CalculateTotal();
+        }
+        });
+
+        function getPhoneNumber() {
+            var customerId = $("#customerId").val();
+            if (customerId) {
+                $.ajax({
+                    url: "@Url.Action("GetCustomerPhone", "Bill")",
+                    type: "GET",
+                    data: { customerId: customerId },
+                    success: function(response) {
+                        $("#cphone").val(response.phone);
+                    },
+                    error: function() {
+                        alert("Error fetching customer phone number.");
+                    }
+                });
+            } else {
+                $("#cphone").val('');
+            }
+        }
+
+        function CalculateSubTotal() {
+            var quantity = parseFloat(document.getElementById('quantity').value) || 0;
+            var unitPrice = parseFloat(document.getElementById('unitPrice').value) || 0;
+            var subTotal = quantity * unitPrice;
+            document.getElementById('subTotal').value = subTotal.toFixed(2);
+        }
+
+        function CalculateTotal() {
+            var total = 0;
+            items.forEach(function (item) {
+                total += parseFloat(item.subTotal);
+            });
+            document.getElementById('total').value = total.toFixed(2);
+            CalculateNetTotal();
+        }
+
+        function CalculateNetTotal() {
+            var total = parseFloat(document.getElementById('total').value) || 0;
+            var discount = parseFloat(document.getElementById('discount').value) || 0;
+            var netTot = total - discount;
+            document.getElementById('Nettotal').value = netTot.toFixed(2);
+            CalculateDue();
+        }
+
+        function CalculateDue() {
+            var netTotal = parseFloat(document.getElementById('Nettotal').value) || 0;
+            var paid = parseFloat(document.getElementById('paid').value) || 0;
+            var due = netTotal - paid;
+            document.getElementById('due').value = due.toFixed(2);
+        }
+
+        function addItem() {
+            var itemId = document.getElementById('ItemId').value;
+            var itemName = document.getElementById('ItemName').value;
+            var quantity = document.getElementById('quantity').value;
+            var unitPrice = document.getElementById('unitPrice').value;
+            var subTotal = document.getElementById('subTotal').value;
+
+            if (!itemId || !itemName || !quantity || !unitPrice || !subTotal) {
+                alert('Please fill all fields in the Add Item section');
+                return;
+            }
+
+            var item = {
+                iid: itemId,
+                iname: itemName,
+                quantity: quantity,
+                unitPrice: unitPrice,
+                subTotal: subTotal
+            };
+            items.push(item);
+
+            var table = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+            var cell5 = newRow.insertCell(4);
+            var cell6 = newRow.insertCell(5);
+
+            cell1.innerHTML = itemId;
+            cell2.innerHTML = itemName;
+            cell3.innerHTML = quantity;
+            cell4.innerHTML = unitPrice;
+            cell5.innerHTML = subTotal;
+            cell6.innerHTML = '<button type="button" class="btn btn-danger btn-sm" onclick="removeItem(this, ' + (items.length - 1) + ')">Remove</button>';
+
+            // Clear input fields
+            document.getElementById('ItemId').value = '';
+            document.getElementById('ItemName').value = '';
+            document.getElementById('quantity').value = '';
+            document.getElementById('unitPrice').value = '';
+            document.getElementById('subTotal').value = '';
+
+            // Recalculate total
+            CalculateTotal();
+        }
+
+        function removeItem(button, index) {
+            // Remove from array
+            items.splice(index, 1);
+
+            // Remove from row
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+
+            // Recalculate total
+            CalculateTotal();
+
+            // Update remove buttons indexes
+            var table = document.getElementById('itemsTable').getElementsByTagName('tbody')[0];
+            var rows = table.getElementsByTagName('tr');
+            for (var i = 0; i < rows.length; i++) {
+                var removeBtn = rows[i].cells[5].getElementsByTagName('button')[0];
+                removeBtn.setAttribute('onclick', 'removeItem(this, ' + i + ')');
+            }
+        }
+
+        function submitBill() {
+            if (items.length === 0) {
+                alert('Please add at least one item');
+                return;
+            }
+
+            // Fill hidden form
+            document.getElementById('formBillId').value = document.getElementById('billId').value;
+            document.getElementById('formBDate').value = document.getElementById('BDate').value;
+            document.getElementById('formCustomerId').value = document.getElementById('customerId').value;
+            document.getElementById('formCPhone').value = document.getElementById('cphone').value;
+            document.getElementById('formTotal').value = document.getElementById('total').value;
+            document.getElementById('formDiscount').value = document.getElementById('discount').value;
+            document.getElementById('formNetTotal').value = document.getElementById('Nettotal').value;
+            document.getElementById('formPaid').value = document.getElementById('paid').value;
+            document.getElementById('formDue').value = document.getElementById('due').value;
+
+            var container = document.getElementById('billDetailsContainer');
+            container.innerHTML = ''; // clear previous input
+
+            items.forEach(function(item, index) {
+                // Create hidden inputs with exact property names matching the C# model
+                Object.keys(item).forEach(function(key) {
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'BillDetails[' + index + '].' + key;
+                    input.value = item[key];
+                    container.appendChild(input);
+                });
+            });
+
+            // Submit form
+            document.getElementById('billForm').submit();
+        }
+    </script>
+}

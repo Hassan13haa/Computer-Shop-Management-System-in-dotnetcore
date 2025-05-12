@@ -1,0 +1,71 @@
+﻿@model IEnumerable<RenewApplication.Models.Item>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Itemname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Harddisk)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ram)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purchprice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sellprice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Itemname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Harddisk)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ram)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Purchprice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sellprice)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

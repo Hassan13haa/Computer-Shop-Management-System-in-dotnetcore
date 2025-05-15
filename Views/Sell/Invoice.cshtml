@@ -1,0 +1,133 @@
+﻿@page
+@model ViewModels.customerBillingViewModel
+@{
+    Layout = null;
+    var total = Model.Items.Sum(item => item.Quantity * item.Price);
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0 auto;
+            max-width: 600px;
+            padding: 1rem;
+            background: #f5f8fa;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #4CAF50;
+            margin-bottom: 2rem;
+            color: #4CAF50;
+        }
+
+        h1 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .invoice-details {
+            margin-bottom: 2rem;
+        }
+
+            .invoice-details span {
+                display: inline-block;
+                min-width: 110px;
+                font-weight: 600;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+
+        th {
+            background: #4CAF50;
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem;
+            text-align: left;
+            border-bottom: 2px solid #388E3C;
+        }
+
+        td {
+            padding: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tfoot td {
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding-top: 1rem;
+            border-top: 2px solid #4CAF50;
+        }
+        @media (max-width: 600px) {
+            body
+
+        {
+            padding: 0.5rem;
+            max-width: 100%;
+        }
+
+        .invoice-details span {
+            min-width: 90px;
+        }
+
+        table, th, td {
+            font-size: 0.9rem;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Invoice</h1>
+    </header>
+
+    <section class="invoice-details">
+        <p><span>Invoice Date:</span> @Model.InvoiceDate.ToString("MMMM dd, yyyy")</p>
+        <p><span>Customer:</span> @Model.CustomerName</p>
+    </section>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th style="text-align:center;">Quantity</th>
+                <th style="text-align:right;">Price</th>
+                <th style="text-align:right;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td style="text-align:center;">@item.Quantity</td>
+                    <td style="text-align:right;">@item.Price.ToString("C")</td>
+                    <td style="text-align:right;">@(item.Quantity * item.Price).ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" style="text-align:right;">Total Amount:</td>
+                <td style="text-align:right;">@total.ToString("C")</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <footer style="text-align:center; font-size:0.9rem; color:#666;">
+        Thank you for your business!
+    </footer>
+</body>
+</html>

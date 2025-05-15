@@ -332,6 +332,11 @@ namespace RenewApplication.Controllers
             //}
         }
 
+        public ActionResult Invoice()
+        {
+            return View();
+        }
+
         //public FileContentResult Print()
         //{
         //    string format = "PDF";
